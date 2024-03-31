@@ -1,7 +1,7 @@
 # Addis Software Test Project 
 ### Done By Natnael Yohannes
 
-#### Deploied on **Vercel** [Open](https://music-4ngiadr48-natnael-cryptos-projects.vercel.app/)
+#### Deploied on **Vercel** [Open](https://music-app-six-coral.vercel.app/)
 
 ## Available Scripts
 
