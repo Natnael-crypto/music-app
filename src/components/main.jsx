@@ -13,7 +13,7 @@ const Main = ({setmusicToPlay,searchString}) => {
 
     useEffect(()=>{    
         dispatch(getSongsRequest());
-    },[])
+    },[dispatch])
 
     const handleSelect=(musicToplay)=>{
         setmusicToPlay(musicToplay)
