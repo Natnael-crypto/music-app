@@ -43,11 +43,11 @@ const Header = ({musicToPlay,setmusicToPlay,seteditVisible,setsearchString})=>{
                 <Head2>
                 {musicToPlay.Artist_name}
                 </Head2>
-                {musicToPlay.Artist_name==''?null:<EditButton onClick={handleEdit} title='Edit'>
+                {musicToPlay.Artist_name===''?null:<EditButton onClick={handleEdit} title='Edit'>
                     <FiEdit/>
                 </EditButton>}
                 
-                {musicToPlay.Artist_name==''?null:<DeleteButton title='Delete' onClick={handleDelete}>
+                {musicToPlay.Artist_name===''?null:<DeleteButton title='Delete' onClick={handleDelete}>
                     <FaRegTrashCan/>
                 </DeleteButton>}
             </Hero>
