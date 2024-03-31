@@ -26,7 +26,7 @@ export function* deleteSongByIdSaga(action) {
     yield put(getSongsSlice(songs.data))
 }
 
-export function* watchUsersAsync() {
+export function* watchSongsAsync() {
     yield takeEvery(GET_SONGS, getSongsSaga)
     yield takeEvery(CREATE_SONG, createSongSaga)
     yield takeEvery(UPDATE_SONG_BY_ID, updateSongSaga)
