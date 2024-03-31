@@ -27,44 +27,75 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Python API with flask
 
-### `npm run eject`
+```
+from flask import Flask, request, jsonify
+import uuid
+from flask_cors import CORS
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
+app = Flask(__name__)
+CORS(app)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+data = [
+    {
+        "uuid": "b303eb7a-4cc6-4bc2-8950-7d6e1884101b",
+        "music_name": "Sapphire Serenade",
+        "Artist_name": "Lunar Eclipse",
+        "link": "http://music/name.mp3",
+        "date": ["2024-03-26"]
+    },
+    {
+        "uuid": "d6cf58e4-1021-469e-b25b-4768b7e1c42e",
+        "music_name": "Whispering Willow",
+        "Artist_name": "Ethereal Dream",
+        "link": "http://music/name.mp3",
+        "date": ["2024-03-26"]
+    },
+    ......
+    ]
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
+@app.route('/', methods=['GET'])
+def get_music():
+    return jsonify(data)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
+@app.route('/', methods=['POST'])
+def create_music():
+    new_item = request.json
+    new_item['uuid'] = str(uuid.uuid4())
+    data.append(new_item)
+    return jsonify(new_item), 201
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
+@app.route('/<string:item_id>', methods=['PUT'])
+def update_music(item_id):
+    updated_item = request.json
+    for item in data:
+        if item['uuid'] == item_id:
+            item.update(updated_item)
+            return jsonify(item)
+    return "Item not found", 404
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
+@app.route('/<string:item_id>', methods=['DELETE'])
+def delete_music(item_id):
+    for item in data:
+        if item['uuid'] == item_id:
+            data.remove(item)
+            return '', 204
+    return "Item not found", 404
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### `npm run build` fails to minify
+if __name__ == "__main__":
+    app.run(port=6326)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```
+
